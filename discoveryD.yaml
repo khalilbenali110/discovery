@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discovery
+  template:
+    metadata:
+      labels:
+        app: discovery
+    spec:
+      containers:
+      - name: discovery
+        image: 12051980/discoveryservice
+        ports:
+        - containerPort: 2368
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery
+spec:
+  selector:
+    app: ghost
+  type: NodePort
+  ports:
+  - port: 8761
+    targetPort: 8761
+    nodePort: 31001
+
